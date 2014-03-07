@@ -1,0 +1,14 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'application'
+
+    sourceCompatibility = '1.7'
+
+    repositories {
+        maven {
+            url 'http://repo1.maven.org/maven2'
+        }
+    }
+}
+

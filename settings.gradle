@@ -1,0 +1,1 @@
+include("ui-tests", "features-module", "web-app")

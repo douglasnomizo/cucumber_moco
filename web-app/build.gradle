@@ -1,0 +1,68 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'idea'
+
+version = '1.0'
+group = 'com.thoughtworks'
+archivesBaseName = 'moco-gradle-plugin'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+repositories {
+  maven {
+    url 'https://oss.sonatype.org/content/groups/public/'
+  }
+  mavenCentral()
+}
+
+dependencies {
+  groovy localGroovy()
+  compile gradleApi()
+  compile 'com.github.dreamhead:moco-runner:0.6.4-SNAPSHOT'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name project.name
+                packaging 'jar'
+                description 'Testing'
+                url 'https://github.com/silverjava/moco-gradle-plugin'
+
+                scm {
+                    url 'scm:git@github.com:silerjava/moco-gradle-plugin.git'
+                    connection 'scm:git@github.com:silverjava/moco-gradle-plugin.git'
+                    developerConnection 'git@github.com:silverjava/moco-gradle-plugin.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'silverjava'
+                        name 'Yin Dawei'
+                    }
+                }
+            }
+        }
+    }
+}
+
+task wrapper(type: Wrapper) << {
+    gradleVersion = '1.4'
+}
