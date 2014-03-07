@@ -23,7 +23,7 @@ task uiTest(type: JavaExec, dependsOn: 'classes') {
 
     main = "cucumber.api.cli.Main"
     classpath = sourceSets.main.output +
-            files(project(':steps-module').sourceSets.test.resources.srcDirs) +
+            files(project(':ui-tests').sourceSets.test.resources.srcDirs) +
             configurations.runtime
 
     systemProperties = System.getProperties()
