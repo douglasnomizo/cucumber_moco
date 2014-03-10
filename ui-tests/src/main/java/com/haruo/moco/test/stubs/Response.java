@@ -1,4 +1,4 @@
-package com.premierinc.amp.test.stubs;
+package com.haruo.moco.test.stubs;
 
 public class Response {
 

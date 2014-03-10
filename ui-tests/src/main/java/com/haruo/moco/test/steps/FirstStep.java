@@ -1,6 +1,6 @@
-package com.haruo.amp.test.steps;
+package com.haruo.moco.test.steps;
 
-import com.premierinc.amp.test.stubs.MocoStubServer;
+import com.haruo.moco.test.stubs.MocoStubServer;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;

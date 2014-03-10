@@ -1,4 +1,4 @@
-package com.premierinc.amp.test.stubs;
+package com.haruo.moco.test.stubs;
 
 import com.github.dreamhead.moco.HttpServer;
 import com.github.dreamhead.moco.ResponseHandler;
@@ -17,8 +17,8 @@ public class MocoStubServer {
     public static void main(String[] args) {
 
         runner = new StandaloneRunner();
-        server().mount("/Users/dharuo/Projects/Premier/moco-gradle/web-app/src/main/webapp/javascript/amp-analysis", to("/amp-analysis"));
-        server().get(by(uri("/"))).response(file("/Users/dharuo/Projects/Premier/moco-gradle/web-app/src/main/webapp/WEB-INF/views/index.html"));
+        server().mount("web-app/src/main/webapp/javascript", to("/javascript"));
+        server().get(by(uri("/"))).response(file("web-app/src/main/webapp/WEB-INF/views/index.html"));
         runner.run(server());
     }
 
@@ -38,7 +38,7 @@ public class MocoStubServer {
     public static void init() {
         runner = new StandaloneRunner();
         server = server();
-        server.response(file("/webapp/WEB-INF/views/default.html"));
+        server.response(file("web-app/src/main/webapp/WEB-INF/views/index.html"));
         runner.run(server());
     }
 }
