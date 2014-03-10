@@ -10,5 +10,27 @@ allprojects {
             url 'http://repo1.maven.org/maven2'
         }
     }
-}
 
+    test {
+
+        minHeapSize = "2G"
+        maxHeapSize = "2G"
+
+        jvmArgs = [
+                '-XX:-UseSplitVerifier',
+                '-XX:+CMSClassUnloadingEnabled',
+                '-XX:+HeapDumpOnOutOfMemoryError',
+                '-XX:MaxPermSize=768m',
+                '-Dfile.encoding=utf-8'
+        ]
+
+        useTestNG {
+            useDefaultListeners = true
+        }
+
+        testLogging {
+            events 'failed', 'skipped'
+        }
+    }
+
+}

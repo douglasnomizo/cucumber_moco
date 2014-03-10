@@ -1,7 +1,9 @@
 dependencies {
     compile project(':web-app')
+    compile project(':features-module')
 
-    compile 'org.hibernate:hibernate-core:4.2.1.Final'
+    compile 'log4j:log4j:1.2.17'
+
     compile 'commons-lang:commons-lang:2.6'
     compile 'org.testng:testng:6.8.7'
     compile 'org.hamcrest:hamcrest-all:1.3'
@@ -9,14 +11,12 @@ dependencies {
     compile 'org.seleniumhq.selenium:selenium-server:2.38.0'
     compile 'info.cukes:cucumber-java:1.1.2'
     compile 'info.cukes:cucumber-junit:1.1.2'
-    compile 'info.cukes:cucumber-spring:1.1.2'
 
-    runtime project(':features-module')
+    compile 'com.github.dreamhead:moco-runner:0.9.1'
 
-    runtime 'org.eclipse.jetty:jetty-start:8.1.10.v20130312'
-    runtime 'org.mortbay.jetty:jetty-runner:8.1.10.v20130312'
+    compile 'org.apache.httpcomponents:httpclient:4.3.3'
+    compile 'org.apache.httpcomponents:fluent-hc:4.3.3'
 }
-
 
 task uiTest(type: JavaExec, dependsOn: 'classes') {
     def features = "classpath:features/" + System.getProperty("features", "")
@@ -24,15 +24,26 @@ task uiTest(type: JavaExec, dependsOn: 'classes') {
     main = "cucumber.api.cli.Main"
     classpath = sourceSets.main.output +
             files(project(':ui-tests').sourceSets.test.resources.srcDirs) +
-            configurations.runtime
+            configurations.compile
 
     systemProperties = System.getProperties()
     args = ['--format', 'pretty',
             '--format', "html:${reporting.baseDir}/cucumber",
             '--format', "json:${reporting.baseDir}/cucumber/cucumber.json",
             '--strict',
-            '--glue', 'cucumber.api.spring',
-            '--glue', 'com.premierinc.amp.test.steps',
+            '--glue', 'com.haruo.moco.test.steps',
             '--tags', '@ui',
             features]
+
+    jvmArgs = [
+            "-Xdebug",
+            "-Xmx10G",
+            "-XX:MaxPermSize=1G"
+    ]
+}
+
+task startMoco(type: JavaExec) {
+    main = "com.haruo.moco.test.runner.Server"
+    classpath = sourceSets.main.output +
+            configurations.compile
 }
